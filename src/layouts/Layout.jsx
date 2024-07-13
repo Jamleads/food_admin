@@ -27,7 +27,7 @@ const Layout = () => {
             {sidebarOpen ? (
               <FaChevronLeft className="text-3xl" />
             ) : (
-              <TfiMenu className="text-3xl text-primary-mainBlue" />
+              <TfiMenu className="text-3xl text-theGreen" />
             )}
           </div>
         </div>

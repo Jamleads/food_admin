@@ -41,7 +41,7 @@ const Login = () => {
   return (
     <div className="h-[100vh] flex items-center justify-center">
       <div className="md:w-[50%] mx-auto bg-white flex flex-col gap-10 shadow-lg p-10">
-        <div className="text-center text-primary-mainBlue">
+        <div className="text-center text-theGreen">
           <Link to="/dashboard">
             <p className="text-2xl font-bold">Login</p>
           </Link>
@@ -67,7 +67,7 @@ const Login = () => {
             />
             <button
               disabled={isLoading}
-              className="bg-primary-mainBlue text-white font-bold px-5 py-2 rounded-md"
+              className="bg-theGreen text-white font-bold px-5 py-2 rounded-md"
             >
               {!isLoading ? "Login" : "Loading..."}
             </button>

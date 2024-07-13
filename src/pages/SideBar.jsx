@@ -26,9 +26,9 @@ const SideBar = ({ sidebarOpen }) => {
           {sideBarData.map((item, index) => (
             <Link to={item.pageLink} key={index}>
               <div
-                className={`flex items-center gap-5 py-2 text-primary-mainBlue hover:border-b-2 border-primary-mainGreen hover:text-primary-mainGreen ${
+                className={`flex items-center gap-5 py-2 text-theGreen hover:border-b-2 border-theSubGreen hover:text-theSubGreen ${
                   pathname === item?.pageLink
-                    ? "border-primary-mainGreen text-primary-mainGreen border-b-2"
+                    ? "border-theSubGreen text-theSubGreen border-b-2"
                     : ""
                 }`}
               >
@@ -46,7 +46,7 @@ const SideBar = ({ sidebarOpen }) => {
 
       <div className="logout ">
         <div
-          className="flex items-center gap-5 py-2 text-primary-mainBlue hover:bg-primary-mainGreen hover:text-white rounded-lg shadow-sm cursor-pointer"
+          className="flex items-center gap-5 py-2 text-theGreen hover:bg-theSubGreen hover:text-white rounded-lg shadow-sm cursor-pointer"
           onClick={logout}
         >
           <BiLogOut className="text-3xl" />

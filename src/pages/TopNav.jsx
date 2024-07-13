@@ -12,14 +12,14 @@ const TopNav = ({ proileImg }) => {
       </div>
 
       <div className="proile md:w-[30%] ml-auto flex justify-end items-center gap-2">
-        <div className="text-xs text-end text-primary-mainBlue">
+        <div className="text-xs text-end text-theGreen">
           <p className="name">
             Welcome <span>{userInfo?.firstName}</span> {""}
             <span>({userInfo?.role})</span>
           </p>
           <p className="email">{userInfo?.email}</p>
         </div>
-        <div className="img bg-primary-mainBlue w-[40px] h-[40px] flex items-center justify-center">
+        <div className="img bg-theGreen w-[40px] h-[40px] flex items-center justify-center">
           {proileImg ? (
             <img src={proileImg} alt="" />
           ) : (

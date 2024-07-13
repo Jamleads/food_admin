@@ -20,7 +20,7 @@ const InputTag = ({
         name={inputFor}
         type={inputType}
         placeholder={inputPlaceholder}
-        className="border-[1px] border-primary-mainBlue px-5 py-2 rounded-md bg-transparent w-full mt-2"
+        className="border-[1px] border-theGreen px-5 py-2 rounded-md bg-transparent w-full mt-2"
       />
     </div>
   );

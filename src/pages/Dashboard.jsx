@@ -16,7 +16,7 @@ const Dashboard = () => {
         <PageName pageNmae={"Dashboard"} />
       </div>
 
-      <div className="grid md:grid-cols-3 grid-cols-1 my-10 gap-5 text-primary-mainBlue">
+      <div className="grid md:grid-cols-3 grid-cols-1 my-10 gap-5 text-theGreen">
         <BoardData
           resourceName={"Total Revenue"}
           resourceIcon={<GiWallet />}

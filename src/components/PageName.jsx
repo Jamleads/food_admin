@@ -2,7 +2,7 @@
 const PageName = ({ pageNmae }) => {
   return (
     <div className="pageName">
-      <h1 className="text-3xl font-bold text-primary-mainBlue ml-5 capitalize">
+      <h1 className="text-3xl font-bold text-theGreen ml-5 capitalize">
         {pageNmae}
       </h1>
     </div>

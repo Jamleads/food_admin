@@ -8,6 +8,9 @@ import {
 } from "react-router-dom";
 import ProtectedRoute from "./layouts/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
+import Order from "./pages/Order";
+import Products from "./pages/Products";
+import Categories from "./pages/Categories";
 
 function App() {
   const routes = createBrowserRouter(
@@ -15,6 +18,9 @@ function App() {
       // <Route element={<ProtectedRoute />}>
       <Route to="/" element={<Layout />}>
         <Route index element={<Dashboard />} />
+        <Route path="/orders" element={<Order />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/categories" element={<Categories />} />
         <Route path="*" element={<Navigate to="/errorpage" />} />
       </Route>
       // </Route>

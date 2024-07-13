@@ -1,11 +1,10 @@
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
-
+const accessToken = "bvcfdstryugh";
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://web-newsletter-7d7b9de4bde2.herokuapp.com/api",
-    baseUrl: "http://0.0.0.0:7020/api",
+    baseUrl: "https://api.foodsbymomi.com/",
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const token = accessToken; // getState().auth.token;
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -15,6 +14,3 @@ export const api = createApi({
   tagTypes: ["User", "Orders", "ProductCategory", "Products"],
   endpoints: () => ({}),
 });
-
-// https://newsletter.esdiacapp.com/api/v1
-// https://web-newsletter-7d7b9de4bde2.herokuapp.com
