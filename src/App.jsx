@@ -17,17 +17,17 @@ import Admin from "./pages/Admin";
 function App() {
   const routes = createBrowserRouter(
     createRoutesFromElements(
-      // <Route element={<ProtectedRoute />}>
-      <Route to="/" element={<Layout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="/orders" element={<Order />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/customers" element={<Customer />} />
-        <Route path="/admins" element={<Admin />} />
-        <Route path="*" element={<Navigate to="/errorpage" />} />
+      <Route element={<ProtectedRoute />}>
+        <Route to="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="/orders" element={<Order />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/customers" element={<Customer />} />
+          <Route path="/admins" element={<Admin />} />
+          <Route path="*" element={<Navigate to="/errorpage" />} />
+        </Route>
       </Route>
-      // </Route>
     )
   );
 

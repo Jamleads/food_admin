@@ -11,27 +11,28 @@ const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [formState, setFormState] = useState({
     email: "",
     password: "",
   });
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormState((pre) => ({ ...pre, [id]: value }));
   };
+
   const submitLogin = async (e) => {
     e.preventDefault();
     try {
       const res = await login(formState).unwrap();
 
-      localStorage.setItem("token", JSON.stringify(res.data.accessToken));
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem("token", JSON.stringify(res.token));
+      localStorage.setItem("user", JSON.stringify(res.data));
 
-      dispatch(setAuthState(res.data.user));
-      dispatch(setToken(res.data.accessToken));
-
+      dispatch(setAuthState(res.data));
+      dispatch(setToken(res.token));
       navigate("/", { replace: true });
-
       successToast("Login successfully");
     } catch (error) {
       console.log(error.data);

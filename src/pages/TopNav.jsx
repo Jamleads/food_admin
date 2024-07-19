@@ -3,8 +3,10 @@ import { TfiMenu } from "react-icons/tfi";
 import { useSelector } from "react-redux";
 
 const TopNav = ({ proileImg }) => {
+  // const theState = useSelector((state) => state);
   const auth = useSelector((state) => state.auth);
   const userInfo = auth?.user;
+  // console.log("the auth: ", theState);
   return (
     <div className="flex items-center justify-between">
       <div className="onMobilMemu">
@@ -24,7 +26,7 @@ const TopNav = ({ proileImg }) => {
             <img src={proileImg} alt="" />
           ) : (
             <p className="text-white text-2xl font-bold">
-              {userInfo?.firstName.slice(0, 1)}
+              {userInfo?.name?.slice(0, 1)}
             </p>
           )}
         </div>
