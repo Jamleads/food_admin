@@ -26,17 +26,14 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await login(formState).unwrap();
-
       localStorage.setItem("token", JSON.stringify(res.token));
       localStorage.setItem("user", JSON.stringify(res.data));
-
       dispatch(setAuthState(res.data));
       dispatch(setToken(res.token));
       navigate("/", { replace: true });
       successToast("Login successfully");
     } catch (error) {
-      console.log(error.data);
-      errorToast(error.data.message);
+      errorToast(error?.data?.message);
     }
   };
   return (

@@ -8,6 +8,18 @@ export const productApi = api.injectEndpoints({
         method: "GET",
       }),
     }),
+    getFeaturedProduct: builder.query({
+      query: () => ({
+        url: "/product/featured-products",
+        method: "GET",
+      }),
+    }),
+    getProductById: builder.query({
+      query: (id) => ({
+        url: `/product/${id}`,
+        method: "GET",
+      }),
+    }), //TODO: UN USED YET!
     createProduct: builder.mutation({
       query: (data) => ({
         url: "/product/create",
@@ -36,4 +48,6 @@ export const {
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useGetFeaturedProductQuery,
+  useGetProductByIdQuery,
 } = productApi;

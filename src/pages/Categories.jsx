@@ -1,11 +1,18 @@
 import { GiWallet } from "react-icons/gi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TopNav from "./TopNav";
 import PageName from "../components/PageName";
 import BoardData from "../components/BoardData";
+import {
+  useAddCategoryMutation,
+  useGetCategoryQuery,
+} from "../services/categories";
+import BarsLoader from "../utilities/BarsLoader";
+import { successToast } from "../utilities/ToastMessages";
 
 const tHead = "text-[16px] border-r border-gray-400 text-white py-2 capitalize";
 const tData = "border-r border-gray-400 capitalize py-2 truncate";
+const inputStyle = "w-full border-2 border-theGreen px-3 py-1 rounded-lg";
 
 const product_categorys = [
   {
@@ -22,8 +29,33 @@ const product_categorys = [
 // TODO: THE FORM FOR ADDING CATEGORY
 
 const Categories = () => {
-  const [allCategory, setAllCategory] = useState(product_categorys);
+  const { data: categoryData, refetch } = useGetCategoryQuery();
   const [selectedItem, setSelectedItem] = useState(null);
+  const [categories, setCategories] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [formState, setFormState] = useState({ name: "" });
+
+  useEffect(() => {
+    if (categoryData) {
+      setCategories(categoryData?.product_categorys);
+    }
+  }, [categoryData]);
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormState({ ...formState, [id]: value });
+  };
+  const [addCategory, { isLoading }] = useAddCategoryMutation();
+  const submitCategory = async (e) => {
+    e.preventDefault();
+    try {
+      await addCategory(formState);
+      successToast("Category added successfully");
+      refetch();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -42,6 +74,7 @@ const Categories = () => {
           resourceName={"Total Category"}
           resourceIcon={<GiWallet />}
           theColor={"text-theSubGreen"}
+          resourceTotal={categories?.length}
         />
         {/* TODO: BOARD  DATA WITH THE NUMBER OF PRODUCT IN EACH CATEGORY */}
       </div>
@@ -57,7 +90,7 @@ const Categories = () => {
           </thead>
 
           <tbody>
-            {allCategory?.map((item, index) => (
+            {categories?.map((item, index) => (
               <tr
                 className={`text-center border-b cursor-pointer hover:bg-secondary-blue`}
                 key={index}
@@ -72,6 +105,35 @@ const Categories = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="mt-10 bg-red-100 p-10 w-[40%]">
+        <p>Add category</p>
+        <form action="">
+          <input
+            type="text"
+            id="name"
+            value={formState.name}
+            name="name"
+            onChange={(e) => handleChange(e)}
+            placeholder="Enter category name"
+            className={`${inputStyle}`}
+            required
+          />
+          <button
+            disabled={isLoading}
+            onClick={submitCategory}
+            className={`bg-theSubGreen text-white px-10 py-3 font-bold`}
+          >
+            {isLoading ? (
+              <BarsLoader height={20} color={"#354231"} />
+            ) : editMode ? (
+              "Update Category"
+            ) : (
+              "Add Category"
+            )}
+          </button>
+        </form>
       </div>
     </>
   );

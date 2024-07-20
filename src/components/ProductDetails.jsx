@@ -15,8 +15,12 @@ const ProductDetails = ({
       </p>
 
       <div className="flex flex-col gap-3">
-        <div className="bg-red-500 w-[80%] mx-auto">
-          <img src={selectedProduct?.imageUrl} alt="" />
+        <div className="bg-red-500 w-[320px] h-[320px] mx-auto">
+          <img
+            src={selectedProduct?.imageUrl}
+            alt=""
+            className=" w-full h-full"
+          />
         </div>
 
         <div className="lg:p-0 p-5">

@@ -8,6 +8,7 @@ import {
   useCreateProductMutation,
   useDeleteProductMutation,
   useGetAllProductQuery,
+  useGetFeaturedProductQuery,
   useUpdateProductMutation,
 } from "../services/product";
 import { errorToast, successToast } from "../utilities/ToastMessages";
@@ -20,6 +21,8 @@ const tData = "border-r border-gray-400 capitalize py-2 truncate";
 // TODO: VEW MORE  OF PRODUCT DETAILS WITH ACTION
 
 const Products = () => {
+  const { data: featured, refetch: refetchFeatured } =
+    useGetFeaturedProductQuery();
   const { data: categoryData } = useGetCategoryQuery();
   const { data, isFetching, refetch } = useGetAllProductQuery();
   const [createProduct, { isLoading }] = useCreateProductMutation();
@@ -29,6 +32,7 @@ const Products = () => {
   const [form, setForm] = useState(false);
   const [editmode, setEditmode] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
+  const [featuredProduct, setFeaturedProduct] = useState([]);
   const [categories, setCategories] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [detailsModal, setDetailsModal] = useState(false);
@@ -51,7 +55,15 @@ const Products = () => {
     if (categoryData) {
       setCategories(categoryData?.product_categorys);
     }
-  }, [data, categoryData]);
+  }, [categoryData]);
+
+  useEffect(() => {
+    if (featured) {
+      console.log("featured", featured);
+      // setFeaturedProduct(featured?.product_categorys);
+    }
+  }, [featured]);
+
   useEffect(() => {
     if (!isFetching) {
       setAllProducts(data?.products);
@@ -179,6 +191,12 @@ const Products = () => {
           <div className="grid md:grid-cols-3 grid-cols-1 my-10 gap-5 text-theGreen">
             <BoardData
               resourceName={"Total Products"}
+              resourceIcon={<GiWallet />}
+              theColor={"text-theSubGreen"}
+              resourceTotal={allProducts?.length}
+            />
+            <BoardData
+              resourceName={"Featured Products"}
               resourceIcon={<GiWallet />}
               theColor={"text-theSubGreen"}
               resourceTotal={allProducts?.length}

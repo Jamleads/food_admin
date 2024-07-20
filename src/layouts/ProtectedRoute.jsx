@@ -4,8 +4,6 @@ import Login from "../pages/Login";
 
 const ProtectedRoute = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
-  console.log("auth", isAuthenticated);
-
   return isAuthenticated ? <Outlet /> : <Login />;
 };
 

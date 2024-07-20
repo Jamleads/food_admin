@@ -6,7 +6,6 @@ const TopNav = ({ proileImg }) => {
   // const theState = useSelector((state) => state);
   const auth = useSelector((state) => state.auth);
   const userInfo = auth?.user;
-  // console.log("the auth: ", theState);
   return (
     <div className="flex items-center justify-between">
       <div className="onMobilMemu">
