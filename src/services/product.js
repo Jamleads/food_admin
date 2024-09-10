@@ -19,7 +19,7 @@ export const productApi = api.injectEndpoints({
         url: `/product/${id}`,
         method: "GET",
       }),
-    }), //TODO: UN USED YET!
+    }), //TODO: UNUSED YET!
     createProduct: builder.mutation({
       query: (data) => ({
         url: "/product/create",
@@ -28,8 +28,8 @@ export const productApi = api.injectEndpoints({
       }),
     }),
     updateProduct: builder.mutation({
-      query: (data) => ({
-        url: `/product/${data.id}`,
+      query: ({ data, id }) => ({
+        url: `/product/${id}`,
         method: "PUT",
         body: data,
       }),

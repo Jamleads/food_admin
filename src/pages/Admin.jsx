@@ -1,30 +1,23 @@
-import { GiWallet } from "react-icons/gi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TopNav from "./TopNav";
 import PageName from "../components/PageName";
-import BoardData from "../components/BoardData";
+import { useGetAllAdminQuery } from "../services/admin";
 
 const tHead = "text-[16px] border-r border-gray-400 text-white py-2 capitalize";
 const tData = "border-r border-gray-400 capitalize py-2 truncate";
-
-const product_categorys = [
-  {
-    id: 4,
-    name: "another category",
-  },
-  {
-    id: 1,
-    name: "new category",
-  },
-];
 
 // TODO: VEW MORE  OF PRODUCT DETAILS WITH ACTION
 // TODO: THE FORM FOR ADDING CATEGORY
 
 const Admin = () => {
-  const [allCategory, setAllCategory] = useState(product_categorys);
-  const [selectedItem, setSelectedItem] = useState(null);
-
+  const { data, isLoading, isFetching } = useGetAllAdminQuery();
+  const [allAdmin, setAllAdmin] = useState(null);
+  useEffect(() => {
+    if (!isFetching || !isLoading) {
+      console.log("admin", data);
+      setAllAdmin(data);
+    }
+  }, []);
   return (
     <>
       <div className="nav fixed top-0 right-0 left-0 bg-white shadow-2xl rounded-b-lg px-5 py-2">
@@ -34,7 +27,7 @@ const Admin = () => {
       <div className="flex items-center justify-between">
         <PageName pageNmae={"Categories"} />
 
-        <button className=" bg-theSubGreen px-10 py-3">Add category</button>
+        <button className=" bg-theSubGreen px-10 py-3">Add admin</button>
       </div>
 
       <div className="">
@@ -48,11 +41,10 @@ const Admin = () => {
           </thead>
 
           <tbody>
-            {allCategory?.map((item, index) => (
+            {allAdmin?.map((item, index) => (
               <tr
                 className={`text-center border-b cursor-pointer hover:bg-secondary-blue`}
                 key={index}
-                onClick={() => setSelectedItem("item")}
               >
                 <td className={`${tData}`}>{index + 1}</td>
                 <td className={`${tData}`}>{item?.name}</td>

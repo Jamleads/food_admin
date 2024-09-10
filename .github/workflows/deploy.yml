@@ -1,0 +1,42 @@
+# File Path: .github/workflows/deploy-react.yml
+name: Deploy React App to FTP Server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create a new directory
+        run: mkdir -p build
+
+      - name: Verify the directory was created
+        run: ls -la
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20.11.1"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the React app
+        run: npm run build
+
+      - name: 📂 Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ftp.foodsbymomi.com
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: admin.foodsbymomi.com/
+          local-dir: dist/
+          protocol: ftp

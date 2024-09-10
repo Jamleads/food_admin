@@ -8,9 +8,13 @@ const BoardData = ({
   resourceName,
   textStyle,
   theColor,
+  action,
 }) => {
   return (
-    <div className="bg-white flex items-center justify-around py-5 rounded-xl">
+    <div
+      className="bg-white flex items-center justify-around py-5 rounded-xl cursor-pointer"
+      onClick={action}
+    >
       <div className="flex flex-col items-center justify-center gap-5">
         <div
           className={`w-[60px] h-[60px] rounded-full ${imgStyle} bg-theGreen flex items-center justify-center`}

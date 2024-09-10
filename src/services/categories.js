@@ -15,6 +15,24 @@ export const categoryApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    updateCategory: builder.mutation({
+      query: (data) => ({
+        url: `/product-category/${data.id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/product-category/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
-export const { useGetCategoryQuery, useAddCategoryMutation } = categoryApi;
+export const {
+  useGetCategoryQuery,
+  useAddCategoryMutation,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
+} = categoryApi;

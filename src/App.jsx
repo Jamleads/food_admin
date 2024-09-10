@@ -13,6 +13,7 @@ import Products from "./pages/Products";
 import Categories from "./pages/Categories";
 import Customer from "./pages/Customer";
 import Admin from "./pages/Admin";
+import OrderInfo from "./components/OrderInfo";
 
 function App() {
   const routes = createBrowserRouter(
@@ -21,6 +22,7 @@ function App() {
         <Route to="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="/orders" element={<Order />} />
+          <Route path="/order/:id" element={<OrderInfo />} />
           <Route path="/products" element={<Products />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/customers" element={<Customer />} />

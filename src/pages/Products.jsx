@@ -21,8 +21,7 @@ const tData = "border-r border-gray-400 capitalize py-2 truncate";
 // TODO: VEW MORE  OF PRODUCT DETAILS WITH ACTION
 
 const Products = () => {
-  const { data: featured, refetch: refetchFeatured } =
-    useGetFeaturedProductQuery();
+  const { data: featured } = useGetFeaturedProductQuery();
   const { data: categoryData } = useGetCategoryQuery();
   const { data, isFetching, refetch } = useGetAllProductQuery();
   const [createProduct, { isLoading }] = useCreateProductMutation();
@@ -32,7 +31,6 @@ const Products = () => {
   const [form, setForm] = useState(false);
   const [editmode, setEditmode] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
-  const [featuredProduct, setFeaturedProduct] = useState([]);
   const [categories, setCategories] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [detailsModal, setDetailsModal] = useState(false);
@@ -51,6 +49,7 @@ const Products = () => {
     featured: "false",
   });
 
+  console.log("....", selectedFile);
   useEffect(() => {
     if (categoryData) {
       setCategories(categoryData?.product_categorys);
@@ -112,9 +111,21 @@ const Products = () => {
   // Add and update
   const addProduct = async (e) => {
     e.preventDefault();
+    const payload = {
+      title: formState.title,
+      priceNgn: formState.priceNgn,
+      priceUs: formState.priceUs,
+      priceUk: formState.priceUk,
+      priceGhana: formState.priceGhana,
+      priceCanada: formState.priceCanada,
+      categories: formState.categories,
+      collectionTitle: formState.collectionTitle,
+      collectionDescription: formState.collectionDescription,
+      featured: formState.featured,
+    };
     const formData = new FormData();
-    formData.append("image", selectedFile);
-    Object.entries(formState).forEach(([key, value]) => {
+    selectedFile && formData.append("image", selectedFile);
+    Object.entries(payload).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((element) => {
           formData.append(`${key}[]`, element);
@@ -125,7 +136,8 @@ const Products = () => {
     });
     try {
       if (editmode) {
-        await updateProduct(formState);
+        console.log("for update...", formData);
+        await updateProduct({ data: formData, id: formState.id }).unwrap();
         successToast("Product updated successfully");
       } else {
         await createProduct(formData).unwrap();
@@ -252,5 +264,4 @@ const Products = () => {
     </>
   );
 };
-
 export default Products;

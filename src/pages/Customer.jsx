@@ -1,48 +1,22 @@
 import { GiWallet } from "react-icons/gi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TopNav from "./TopNav";
 import PageName from "../components/PageName";
 import BoardData from "../components/BoardData";
+import { useGetAllCustomersQuery } from "../services/customer";
 
 const tHead = "text-[16px] border-r border-gray-400 text-white py-2 capitalize";
 const tData = "border-r border-gray-400 capitalize py-2 truncate";
 
-const customers_data = [
-  {
-    id: 1,
-    name: "changed name",
-    email: "new@user6.com",
-    role: "customer",
-    phone: null,
-    profilePhotoUrl: null,
-    active: "false",
-  },
-  {
-    id: 2,
-    name: "new customer",
-    email: "new@user.com",
-    role: "customer",
-    phone: null,
-    profilePhotoUrl: null,
-    active: "true",
-  },
-  {
-    id: 3,
-    name: "new customer",
-    email: "new@user2.com",
-    role: "admin",
-    phone: null,
-    profilePhotoUrl: null,
-    active: "true",
-  },
-];
-
-// TODO: VEW MORE  OF PRODUCT DETAILS WITH ACTION
-// TODO: THE FORM FOR ADDING CATEGORY
-
 const Customer = () => {
-  const [allCustomers, setAllCustomers] = useState(customers_data);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [allCustomers, setAllCustomers] = useState(null);
+  const { data, isLoading, isFetching } = useGetAllCustomersQuery();
+
+  useEffect(() => {
+    if (!isLoading || !isFetching) {
+      setAllCustomers(data?.users);
+    }
+  }, [data, isLoading, isFetching]);
 
   return (
     <>
@@ -59,13 +33,8 @@ const Customer = () => {
           resourceName={"Total Customers"}
           resourceIcon={<GiWallet />}
           theColor={"text-theSubGreen"}
+          resourceTotal={allCustomers?.length}
         />
-        <BoardData
-          resourceName={"Returning Customers"} //TODO: Customers that haougt twice +
-          resourceIcon={<GiWallet />}
-          theColor={"text-theSubGreen"}
-        />
-        {/* TODO: BOARD  DATA WITH THE NUMBER OF PRODUCT IN EACH CATEGORY */}
       </div>
 
       <div className="">
@@ -84,7 +53,7 @@ const Customer = () => {
               <tr
                 className={`text-center border-b cursor-pointer hover:bg-secondary-blue`}
                 key={index}
-                onClick={() => setSelectedItem("item")}
+                // onClick={() => setSelectedItem("item")}
               >
                 <td className={`${tData}`}>{index + 1}</td>
                 <td className={`${tData}`}>{item?.name}</td>
