@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { BiLogOut } from "react-icons/bi";
-import { LogoBg } from "../assets";
 import { Link, useLocation } from "react-router-dom";
 import { sideBarData } from "../utilities/dataUse";
 
@@ -18,7 +17,11 @@ const SideBar = ({ sidebarOpen }) => {
       <div className="flex flex-col gap-16 h-[95%]">
         <div className="brandAndName flex items-center gap-3">
           <div className="w-[30px]h-[30px] flex items-center justify-center">
-            <img src={LogoBg} alt="" className="w-[90%] h-[90%]" />
+            <img
+              src="https://res.cloudinary.com/dkmddgqsl/image/upload/v1725972498/logo_ya7ppb.jpg"
+              alt=""
+              className="w-[90%] h-[90%]"
+            />
           </div>
         </div>
 
