@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { GiWallet } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import TopNav from "./TopNav";
@@ -14,6 +15,8 @@ import {
 import { errorToast, successToast } from "../utilities/ToastMessages";
 import ProductDetails from "../components/ProductDetails";
 import { useGetCategoryQuery } from "../services/categories";
+import Select, { components } from "react-select";
+import { customStyles } from "../utilities/CustomUtili";
 
 const tHead = "text-[16px] border-r border-gray-400 text-white py-2 capitalize";
 const tData = "border-r border-gray-400 capitalize py-2 truncate";
@@ -29,6 +32,7 @@ const Products = () => {
   const [deleteProduct, { isLoading: deleting }] = useDeleteProductMutation();
 
   const [form, setForm] = useState(false);
+  const [searchItems, setSearchItems] = useState(false);
   const [editmode, setEditmode] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
   const [categories, setCategories] = useState(null);
@@ -163,6 +167,19 @@ const Products = () => {
       errorToast(error?.data?.message);
     }
   };
+  useEffect(() => {
+    if (!allProducts) return;
+    const newArry = allProducts?.map((item) => ({
+      label: `${item?.title}`,
+      ...item,
+    }));
+    setSearchItems(newArry);
+  }, [allProducts]);
+
+  const handleProductSearch = (item) => {
+    console.log("selected product", item);
+    openProductDetails(item);
+  };
 
   return (
     <>
@@ -216,6 +233,23 @@ const Products = () => {
           </div>
 
           <div className="">
+            <div className=" bg-theGreen py-2 flex items-center justify-center">
+              <div className="flex items-center lg:w-3/5 w-full ">
+                <div className="search w-full flex items-center justify-between border-[1px] border-secondary">
+                  <div className="w-[40px] h-[40px] bg-primary flex items-center justify-center">
+                    {/* <img src={SearchIcon} alt="" /> */}
+                  </div>
+                  <Select
+                    className="w-full"
+                    options={searchItems}
+                    styles={customStyles}
+                    components={{ SingleValue: CustomValue2 }}
+                    onChange={(e) => handleProductSearch(e)}
+                    placeholder="Search for products..."
+                  />
+                </div>
+              </div>
+            </div>
             <table className="table  divide-y  divide-gray-200 w-full">
               <thead>
                 <tr className="text-center bg-theGreen">
@@ -265,3 +299,15 @@ const Products = () => {
   );
 };
 export default Products;
+
+const CustomValue2 = (props) => {
+  return (
+    <components.SingleValue {...props}>
+      <div className="" value={props.data.label}>
+        <div className="leading-6">
+          <p>{props.data.title}</p>
+        </div>
+      </div>
+    </components.SingleValue>
+  );
+};
