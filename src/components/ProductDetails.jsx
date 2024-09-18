@@ -9,7 +9,7 @@ const ProductDetails = ({
   deleteProduct,
 }) => {
   return (
-    <div className="bg-white px-10 py-3 flex flex-col gap-5 overflow-y-scroll">
+    <div className="bg-white px-10 py-3 flex flex-col gap-5 h-[80vh] overflow-y-scroll">
       <p className="text-2xl text-theGreen font-bold text-center">
         Product Deatails
       </p>
@@ -38,31 +38,31 @@ const ProductDetails = ({
               <li className="flex items-center justify-between">
                 Nigeria:{" "}
                 <span className=" text-lg font-bold text-theSubGreen">
-                  {selectedProduct.priceNgn} {selectedProduct.nigeriaCode}
+                  {selectedProduct?.priceNgn} {selectedProduct?.nigeriaCode}
                 </span>
               </li>
               <li className="flex items-center justify-between">
                 Ghana:{" "}
                 <span className=" text-lg font-bold text-theSubGreen">
-                  {selectedProduct.priceGhana} {selectedProduct.ghanaCode}
+                  {selectedProduct?.priceGhana} {selectedProduct?.ghanaCode}
                 </span>
               </li>
               <li className="flex items-center justify-between">
                 Canada:{" "}
                 <span className=" text-lg font-bold text-theSubGreen">
-                  {selectedProduct.priceCanada} {selectedProduct.canadaCode}
+                  {selectedProduct?.priceCanada} {selectedProduct?.canadaCode}
                 </span>
               </li>
               <li className="flex items-center justify-between">
                 United State:{" "}
                 <span className=" text-lg font-bold text-theSubGreen">
-                  {selectedProduct.priceUs} {selectedProduct.usCode}
+                  {selectedProduct?.priceUs} {selectedProduct?.usCode}
                 </span>
               </li>
               <li className="flex items-center justify-between">
                 United Kingdom:{" "}
                 <span className=" text-lg font-bold text-theSubGreen">
-                  {selectedProduct.priceUk} {selectedProduct.ukCode}
+                  {selectedProduct?.priceUk} {selectedProduct?.ukCode}
                 </span>
               </li>
             </ul>
@@ -74,23 +74,18 @@ const ProductDetails = ({
                 Data:{" "}
                 <span className=" text-theSubGreen font-bold">
                   {" "}
-                  {new Date(selectedProduct.created_at).toDateString()}
+                  {new Date(selectedProduct?.created_at).toDateString()}
                 </span>
               </li>
               <li className="">
                 Categories:{" "}
                 <span className=" capitalize text-theSubGreen font-bold">
                   {" "}
-                  {selectedProduct.categories.join(", ")}
+                  {selectedProduct?.categories.join(", ")}
                 </span>
               </li>
             </ul>
           </div>
-
-          {/* <div className="">
-            <h1>{selectedProduct.collectionTitle}</h1>
-            {selectedProduct?.collectionDescription}
-          </div> */}
         </div>
       </div>
 
