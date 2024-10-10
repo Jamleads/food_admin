@@ -9,7 +9,6 @@ import {
   useCreateProductMutation,
   useDeleteProductMutation,
   useGetAllProductQuery,
-  useGetFeaturedProductQuery,
   useUpdateProductMutation,
 } from "../services/product";
 import { errorToast, successToast } from "../utilities/ToastMessages";
@@ -24,7 +23,6 @@ const tData = "border-r border-gray-400 capitalize py-2 truncate";
 // TODO: VEW MORE  OF PRODUCT DETAILS WITH ACTION
 
 const Products = () => {
-  const { data: featured } = useGetFeaturedProductQuery();
   const { data: categoryData } = useGetCategoryQuery();
   const { data, isFetching, refetch } = useGetAllProductQuery();
   const [createProduct, { isLoading }] = useCreateProductMutation();
@@ -53,19 +51,11 @@ const Products = () => {
     featured: "false",
   });
 
-  console.log("....", selectedFile);
   useEffect(() => {
     if (categoryData) {
       setCategories(categoryData?.product_categorys);
     }
   }, [categoryData]);
-
-  useEffect(() => {
-    if (featured) {
-      console.log("featured", featured);
-      // setFeaturedProduct(featured?.product_categorys);
-    }
-  }, [featured]);
 
   useEffect(() => {
     if (!isFetching) {
@@ -140,7 +130,6 @@ const Products = () => {
     });
     try {
       if (editmode) {
-        console.log("for update...", formData);
         await updateProduct({ data: formData, id: formState.id }).unwrap();
         successToast("Product updated successfully");
       } else {
@@ -177,7 +166,6 @@ const Products = () => {
   }, [allProducts]);
 
   const handleProductSearch = (item) => {
-    console.log("selected product", item);
     openProductDetails(item);
   };
 

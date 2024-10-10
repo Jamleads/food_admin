@@ -5,18 +5,22 @@ import TopNav from "./TopNav";
 import {
   useCreateDiscountMutation,
   useCreateReferralPercentMutation,
+  useDeleteDiscountMutation,
   useGetDiscountQuery,
   useGetReferalPercentQuery,
+  useUpdateDiscountMutation,
 } from "../services/Rewards";
 import { useEffect, useState } from "react";
 import BarsLoader from "../utilities/BarsLoader";
 import { errorToast, successToast } from "../utilities/ToastMessages";
+import { reAuthenticate } from "../utilities/reAuthenticate";
 
 const tHead = "text-[16px] border-r border-gray-400 text-white py-2 capitalize";
 const tData = "border-r border-gray-400 capitalize py-2 truncate";
 const inputStyle = "w-full border-2 border-theGreen px-3 py-1 rounded-lg";
 
 const Rewards = () => {
+  const [editMode, setEditMode] = useState(false);
   const [openForm, setOpenForm] = useState(false);
   const [openForm2, setOpenForm2] = useState(false);
   const [discountCode, setDiscountCode] = useState(null);
@@ -27,7 +31,6 @@ const Rewards = () => {
     percentage_to_earn: "",
   });
 
-  //   const [editMode, setEditMode] = useState(false);
   const {
     data: referral,
     isFetching: fetchingReferral,
@@ -37,6 +40,10 @@ const Rewards = () => {
   const [createDiscount, { isLoading }] = useCreateDiscountMutation();
   const [createReferralPercent, { isLoading: loadingReferral }] =
     useCreateReferralPercentMutation();
+  const [updateDiscount, { isLoading: isUpdating }] =
+    useUpdateDiscountMutation();
+  const [deleteDiscount, { isLoading: isDeleting }] =
+    useDeleteDiscountMutation();
 
   useEffect(() => {
     if (!isFetching) {
@@ -53,6 +60,7 @@ const Rewards = () => {
     const { id, value } = e.target;
     setFormState({ ...formState, [id]: value });
   };
+
   const submitCode = async () => {
     if (
       formState?.percentage_discounted === "" ||
@@ -71,10 +79,35 @@ const Rewards = () => {
         refetch();
         setFormState(null);
       } catch (error) {
-        console.log("the error", error);
+        errorToast("the error", error);
       }
     }
   };
+
+  const submitUpdateCode = async (e) => {
+    e.preventDefault();
+    const payload = {
+      id: formState.id,
+      percentage_discounted: formState.percentage_discounted,
+      number_of_times_to_be_use: formState.number_of_times_to_be_use,
+    };
+    try {
+      await updateDiscount(payload).unwrap();
+      successToast("Discount code updated successfully");
+      setOpenForm(false);
+      refetch();
+      setFormState(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const readyUpdate = (item) => {
+    setEditMode(true);
+    setOpenForm(true);
+    setFormState(item);
+  };
+
   const submitReferralPercent = async () => {
     if (formState.percentage_to_earn === "") {
       errorToast("All fields are required");
@@ -94,12 +127,26 @@ const Rewards = () => {
     }
   };
 
+  const deleteACategory = async (item) => {
+    if (!item) return;
+    try {
+      await deleteDiscount(item.id).unwrap();
+      successToast("Category deleted successfully");
+      refetch();
+    } catch (error) {
+      errorToast("Failed to delete category");
+      reAuthenticate(error.message);
+    }
+  };
+
   return (
     <>
       {openForm && (
         <div className="modal bg-red-100 p-10">
           <div className="flex flex-col gap-5 items-center justify-center">
-            <p className=" text-2xl font-bold">Create a discount code</p>
+            <p className=" text-2xl font-bold">
+              {editMode ? "Update disccount code" : "Create a discount code"}
+            </p>
 
             <form action="" className="flex flex-col gap-5">
               <input
@@ -133,12 +180,14 @@ const Rewards = () => {
                   Cancel
                 </button>
                 <button
-                  disabled={isLoading}
-                  onClick={submitCode}
+                  disabled={isLoading || isUpdating}
+                  onClick={editMode ? submitUpdateCode : submitCode}
                   className={`bg-theSubGreen text-white px-10 py-3 font-bold`}
                 >
-                  {isLoading ? (
+                  {isLoading || isUpdating ? (
                     <BarsLoader height={20} color={"#354231"} />
+                  ) : editMode ? (
+                    "Updarte code"
                   ) : (
                     "Create code"
                   )}
@@ -243,10 +292,11 @@ const Rewards = () => {
                   <th className={`${tHead}`}>S/N</th>
                   <th className={`${tHead}`}>Code</th>
                   <th className={`${tHead}`}>Percentage discounted</th>
-                  <th className={`${tHead}`}>Number of time to be used</th>
-                  <th className={`${tHead}`}>Number of time used</th>
+                  <th className={`${tHead}`}>Use number</th>
+                  <th className={`${tHead}`}>Used number</th>
                   <th className={`${tHead}`}>Status</th>
                   <th className={`${tHead}`}>Created date</th>
+                  <th className={`${tHead}`}>Actions</th>
                 </tr>
               </thead>
 
@@ -278,6 +328,26 @@ const Rewards = () => {
                     </td>
                     <td className={`${tData}`}>
                       {new Date(item.created_at).toDateString()}
+                    </td>
+                    <td className={`${tData}`}>
+                      <span className="flex items-center justify-center gap-3">
+                        <button
+                          className="py-2 px-5 bg-theSubGreen cursor-pointer"
+                          onClick={() => readyUpdate(item)}
+                        >
+                          Update
+                        </button>
+                        <button
+                          className="py-2 px-5 bg-red-500 text-white cursor-pointer"
+                          onClick={() => deleteACategory(item)}
+                        >
+                          {isDeleting ? (
+                            <BarsLoader color={"#fff"} height={20} width={20} />
+                          ) : (
+                            "Delete"
+                          )}
+                        </button>
+                      </span>
                     </td>
                   </tr>
                 ))}

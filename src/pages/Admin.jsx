@@ -14,10 +14,9 @@ const Admin = () => {
   const [allAdmin, setAllAdmin] = useState(null);
   useEffect(() => {
     if (!isFetching || !isLoading) {
-      console.log("admin", data);
       setAllAdmin(data);
     }
-  }, []);
+  }, [isFetching, isLoading, data]);
   return (
     <>
       <div className="nav fixed top-0 right-0 left-0 bg-white shadow-2xl rounded-b-lg px-5 py-2">

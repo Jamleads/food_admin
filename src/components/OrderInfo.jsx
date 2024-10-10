@@ -15,7 +15,6 @@ const OrderInfo = () => {
   const { data } = useGetOneOrderInfoQuery(id);
   const [updateOrderStatus] = useUpdateOrderStatusMutation();
   const orderDetails = data?.order;
-  console.log("the order data is", orderDetails);
 
   const updateOrder = async (newStatus) => {
     const data = {

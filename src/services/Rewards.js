@@ -9,6 +9,19 @@ const rewardsApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    updateDiscount: builder.mutation({
+      query: (data) => ({
+        url: `/discount/${data.id}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    deleteDiscount: builder.mutation({
+      query: (id) => ({
+        url: `/discount/${id}`,
+        method: "DELETE",
+      }),
+    }),
     getDiscount: builder.query({
       query: () => ({
         url: "/discount",
@@ -36,4 +49,6 @@ export const {
   useCreateDiscountMutation,
   useGetReferalPercentQuery,
   useCreateReferralPercentMutation,
+  useUpdateDiscountMutation,
+  useDeleteDiscountMutation,
 } = rewardsApi;
