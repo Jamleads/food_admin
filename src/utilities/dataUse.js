@@ -27,6 +27,12 @@ export const sideBarData = [
     pageIcon: MdOutlineCampaign,
   },
   {
+    id: 6,
+    pageLink: "/rewards",
+    pageName: "rewards",
+    pageIcon: MdOutlineCampaign,
+  },
+  {
     id: 4,
     pageLink: "/categories",
     pageName: "categories",
