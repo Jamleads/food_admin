@@ -32,6 +32,7 @@ const Order = () => {
 
   useEffect(() => {
     if (!isLoading && !isFetching) {
+      console.log("raw data", data);
       setAllOrders(data?.orders);
     }
   }, [data, isFetching, isLoading]);
@@ -103,7 +104,7 @@ const Order = () => {
           </thead>
 
           <tbody>
-            {tableData?.map((item, index) => (
+            {allOrders?.map((item, index) => (
               <tr
                 className={`text-center border-b cursor-pointer hover:bg-secondary-blue`}
                 key={index}
